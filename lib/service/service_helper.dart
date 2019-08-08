@@ -26,4 +26,11 @@ class ServiceHelper {
             onUploadProgress: onSendProgress)
         .then((value) => value.data);
   }
+
+  static Future<T> get<T>(String path,
+      {data, Options options, CancelToken cancelToken}) {
+    return dio
+        .get(path, options: options, data: data, cancelToken: cancelToken)
+        .then((value) => value.data);
+  }
 }
