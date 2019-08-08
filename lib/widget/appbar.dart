@@ -1,54 +1,61 @@
 import 'package:flutter/material.dart';
-import 'package:weibo_flutter/router/router.dart';
+import 'package:weibo_flutter/const/colors.dart';
 
-///通用 AppBar
-class GpAppBar extends AppBar {
-  GpAppBar({
-    Key key,
-    Widget leading, //返回键
-    Function leadingAction, //返回键事件
-    bool automaticallyImplyLeading = true,
-    Widget title,
-    List<Widget> actions,
-    Widget flexibleSpace,
-    PreferredSizeWidget bottom,
-    double elevation,
-    ShapeBorder shape,
-    Color backgroundColor,
-    Brightness brightness,
-    IconThemeData iconTheme,
-    IconThemeData actionsIconTheme,
-    TextTheme textTheme,
-    bool primary = true,
-    bool centerTitle = true,
-    double titleSpacing = NavigationToolbar.kMiddleSpacing,
-    double toolbarOpacity = 1.0,
-    double bottomOpacity = 1.0,
-  }) : super(
-            key: key,
-            leading: leading ??
-                IconButton(
-                  icon: Icon(Icons.arrow_back_ios),
-                  onPressed: leadingAction ??
-                      () {
-                        print('点击了返回键');
-                      },
-                ),
-            automaticallyImplyLeading: automaticallyImplyLeading,
-            title: title,
-            actions: actions,
-            flexibleSpace: flexibleSpace,
-            bottom: bottom,
-            elevation: elevation,
-            shape: shape,
-            backgroundColor: backgroundColor,
-            brightness: brightness,
-            iconTheme: iconTheme,
-            actionsIconTheme: actionsIconTheme,
-            textTheme: textTheme,
-            primary: primary,
-            centerTitle: centerTitle,
-            titleSpacing: titleSpacing,
-            toolbarOpacity: toolbarOpacity,
-            bottomOpacity: bottomOpacity);
+class FWAppBar extends StatefulWidget implements PreferredSizeWidget {
+  FWAppBar({this.barHeight = 46.0, this.title, this.showGradient = false});
+
+  final double barHeight;
+  final Widget title;
+  final bool showGradient;
+
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize => new Size.fromHeight(barHeight);
+
+  @override
+  _FWAppBarState createState() => _FWAppBarState();
+}
+
+class _FWAppBarState extends State<FWAppBar> {
+  final Color gradientStart = Color(0xFF49A2FC);
+  final Color gradientEnd = Color(0xFF2171F5);
+  final Color normalColor =
+      GpColors.appbarBackgroundColor; //GpColors.primary[0]
+  @override
+  Widget build(BuildContext context) {
+    BoxDecoration decoration;
+    if (widget.showGradient) {
+      decoration = BoxDecoration(
+          border: BorderDirectional(
+            bottom: BorderSide(
+                color: GpColors.appbarLineColor,
+                width: 1.0,
+                style: BorderStyle.solid),
+          ),
+          gradient: LinearGradient(
+              colors: [gradientStart, gradientEnd],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight));
+    } else {
+      decoration = BoxDecoration(
+        color: normalColor,
+        border: BorderDirectional(
+          bottom: BorderSide(
+              color: GpColors.appbarLineColor,
+              width: 1.0,
+              style: BorderStyle.solid),
+        ),
+      );
+    }
+
+    return Container(
+      decoration: decoration,
+      child: SafeArea(
+        top: true,
+        child: Center(
+          child: widget.title,
+        ),
+      ),
+    );
+  }
 }
