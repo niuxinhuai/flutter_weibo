@@ -19,6 +19,7 @@ dependencies:
   # 日期格式化
   intl: 0.15.7
   cached_network_image: 1.1.1
+  fish_redux: 0.2.5
 
 dev_dependencies:
   flutter_test:
