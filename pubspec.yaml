@@ -36,10 +36,10 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-   fonts:
-     - family: iconfont
-       fonts:
-         - asset: fonts/iconfont.ttf
+  fonts:
+    - family: iconfont
+      fonts:
+        - asset: fonts/iconfont.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

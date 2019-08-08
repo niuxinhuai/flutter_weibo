@@ -14,7 +14,7 @@ def translate():
     print('Begin translate...')
 
     code = """
-import 'package:flutter/widgets.dart' hide Action;
+import 'package:flutter/widgets.dart';
 
 
 // 代码由程序自动生成。请不要对此文件做任何修改。
@@ -37,7 +37,6 @@ class IconF {
     p = re.compile(r'.icon-(.*?):.*?"\\(.*?)";')
 
     content = open(MAIN / 'iconfont.css').read().replace('\n  content', 'content')
-
     for line in content.splitlines():
         line = line.strip()
         if line:
