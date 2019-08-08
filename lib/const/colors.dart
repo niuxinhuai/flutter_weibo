@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class GpColors {
+  static Color randomColor() {
+    return Color.fromARGB(255, Random.secure().nextInt(255),
+        Random.secure().nextInt(255), Random.secure().nextInt(255));
+  }
+
   static const MaterialColor primary = MaterialColor(
     _primaryValue,
     <int, Color>{
