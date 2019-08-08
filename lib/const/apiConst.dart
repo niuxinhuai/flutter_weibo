@@ -1,4 +1,13 @@
 class API {
   //* url */
   static const baseUrl = 'https://api.weibo.com';
+
+  static const oauth =
+      '/oauth2/authorize'; //* 授权- param client_id, redirect_uri*/
+  static const access_token =
+      '/oauth2/access_token'; //* 获取token param - client_id, client_secret, grant_type, code, redirect_uri*/
+  static const home_timeline =
+      '/2/statuses/home_timeline.json'; //* home param - none Get*/
+  static const send_weibo =
+      '/2/statuses/update.json'; //* 发送微博 - param - none */
 }

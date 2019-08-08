@@ -41,6 +41,9 @@ class GpColors {
   );
   static const int _secondaryValue = 0xFFfb9200;
 
+  static const Color appbarLineColor = Color(0xFFD5D5D5);
+  static const Color appbarBackgroundColor = Color(0xFFF4F4F4);
+
   static const Color backgroundColor = Color(0xFFF4F7FA);
   static const Color foregroundColor = Color(0xFFFFFFFF);
   static const Color appbarIconColor = Color(0xFF9BA6AE);
