@@ -17,7 +17,6 @@ class ServiceHelper {
     Options options,
     CancelToken cancelToken,
     OnUploadProgress onSendProgress,
-    OnDownloadProgress onReceiveProgress,
   }) {
     return dio
         .post<T>(path,
