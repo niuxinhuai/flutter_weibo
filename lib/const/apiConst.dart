@@ -1,3 +1,5 @@
+import 'package:weibo_flutter/const/const.dart';
+
 class API {
   //* url */
   static const baseUrl = 'https://api.weibo.com';
@@ -10,4 +12,10 @@ class API {
       '/2/statuses/home_timeline.json'; //* home param - none Get*/
   static const send_weibo =
       '/2/statuses/update.json'; //* 发送微博 - param - none */
+
+  static getOauthUrl() {
+    return API.baseUrl +
+        API.oauth +
+        '?client_id=${Const.WEIBO_APP_KEY}&redirect_uri=${Const.WEIBO_REDIRECT_URL}';
+  }
 }
