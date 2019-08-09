@@ -1,3 +1,8 @@
+import 'dart:core';
+
+import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
+
 class DateTimeUtil {
   //* 返回当前时间戳 */
   static int currentTimeMillis() {
@@ -6,6 +11,11 @@ class DateTimeUtil {
 
   static String getTimeDuration(String comTime) {
     var nowTime = DateTime.now();
+    // Fri Aug 09 20:24:34 +0800 2019 // ddd MMM dd HH:mm:ss zzz yyyy
+    var format = DateFormat('EEE MMM d HH:mm:ss Z yyyy', 'en_US');
+
+    print('>>>>>>>date:$comTime');
+    print('>>>>>>>>>>>${format.parse(comTime)}');
     var compareTime = DateTime.parse(comTime);
     if (nowTime.isAfter(compareTime)) {
       if (nowTime.year == compareTime.year) {

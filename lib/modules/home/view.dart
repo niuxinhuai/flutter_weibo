@@ -7,16 +7,16 @@ import 'action.dart';
 import 'state.dart';
 
 Widget buildView(HomeState state, Dispatch dispatch, ViewService viewService) {
+  final ListAdapter adapter = viewService.buildAdapter();
   return Scaffold(
     appBar: FWAppBar(
       title: Text('首页'),
     ),
     body: state.model.items == null
         ? Loading()
-        : Container(
-            child: Center(
-              child: Text('拿到数据了'),
-            ),
+        : ListView.builder(
+            itemBuilder: adapter.itemBuilder,
+            itemCount: adapter.itemCount,
           ),
   );
 }

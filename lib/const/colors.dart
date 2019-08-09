@@ -77,4 +77,9 @@ class GpColors {
   ///dialog
   static const Color dialogConfirmBtnTextColor = Color(0xFFFDBB46);
   static const Color dialogCancelBtnTextColor = Color(0xFF9BA6AE);
+
+  // title
+  static const Color titleColor = Color(0xFFE36B2B);
+  static const Color detailColor = Color(0xFF949494);
+  static const Color sourceColor = Color(0xFF5A7CAB);
 }
