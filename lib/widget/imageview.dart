@@ -1,14 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:weibo_flutter/models/home_model.dart';
+import 'package:weibo_flutter/router/router.dart';
+import 'package:weibo_flutter/widget/imageviewer.dart';
 
 class ImageView extends StatelessWidget {
   final imgUrl;
-  ImageView({this.imgUrl});
+  final List<Pic> picUrls;
+  final BoxFit fit;
+  ImageView({this.imgUrl, this.fit, this.picUrls});
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: imgUrl,
-      fit: BoxFit.cover,
+    List<String> array = [];
+    for (var pic in picUrls) {
+      array.add(pic.thumbnailPic);
+    }
+    var reImageUrl = imgUrl;
+    if (imgUrl.contains('thumbnail')) {
+      reImageUrl = imgUrl.replaceAll('thumbnail', 'large');
+    }
+    return GestureDetector(
+      onTap: () {
+//        print('>>>>>>name: $imgUrl');
+        Router.push(
+            context,
+            ImageViewer(
+              picUrls: array,
+              imageUrl: imgUrl,
+            ));
+      },
+      child: Hero(
+        tag: reImageUrl,
+        child: CachedNetworkImage(
+          imageUrl: imgUrl,
+          fit: fit,
+        ),
+      ),
     );
   }
 }

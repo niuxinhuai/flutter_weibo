@@ -1,13 +1,18 @@
+import 'dart:core';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fish_redux/fish_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:weibo_flutter/const/colors.dart';
+import 'package:weibo_flutter/const/iconfont.dart';
+import 'package:weibo_flutter/const/sp_helper.dart';
 import 'package:weibo_flutter/models/home_model.dart';
 import 'package:weibo_flutter/utils/date.dart';
 import 'package:weibo_flutter/utils/string.dart';
 import 'package:weibo_flutter/widget/imageview.dart';
 
 Widget buildView(Item state, Dispatch dispatch, ViewService viewService) {
+  _gg();
   return Container(
     color: GpColors.keyboardPressBgColor,
     child: Container(
@@ -19,6 +24,12 @@ Widget buildView(Item state, Dispatch dispatch, ViewService viewService) {
       ),
     ),
   );
+}
+
+void _gg() async {
+  SpHelper sp = await SpHelper.getInstance();
+  print(
+      '>>>>>>>当前的时间戳是:${DateTime.now().millisecondsSinceEpoch / 1000}, exin: ${int.parse(sp.getExpiresTime()) / 10 / 60 / 60 / 24}  max: ${1565427747258 + 157679999}');
 }
 
 Widget _getItemView(Item state, Dispatch dispatch, ViewService viewService) {
@@ -70,7 +81,7 @@ Widget _getHeaderRow(Item state, Dispatch dispatch, ViewService viewService) {
                   children: <Widget>[
                     Text(
 //                      DateTimeUtil.getTimeDuration(state.createdAt),
-                      '刚刚',
+                      DateTimeUtil.getTimeDuration(state.createdAt),
                       style: Theme.of(viewService.context)
                           .textTheme
                           .overline
@@ -104,10 +115,11 @@ Widget _getHeaderRow(Item state, Dispatch dispatch, ViewService viewService) {
             ),
           ),
         ),
-        Container(
-          width: 40,
-          height: 30,
-          color: GpColors.randomColor(),
+        GestureDetector(
+          onTap: () {
+            print('点击了下箭头');
+          },
+          child: Icon(IconF.xiajiantou),
         )
       ],
     ),
@@ -124,50 +136,123 @@ Widget _getCenterText(Item state, Dispatch dispatch, ViewService viewService) {
 Widget _getImageView(Item state, Dispatch dispatch, ViewService viewService) {
   return Container(
     padding: const EdgeInsets.only(top: 5, bottom: 5),
-    child: _getCustomImageView(state, dispatch, viewService),
+    child: _getImageViewColumn(state, dispatch, viewService),
     color: GpColors.keyboardPressBgColor,
+  );
+}
+
+Widget _getImageViewColumn(
+    Item state, Dispatch dispatch, ViewService viewService) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: <Widget>[
+      if (state.retweetedStatus != null)
+        Padding(
+          padding: const EdgeInsets.only(bottom: 5),
+          child: RichText(
+            text: TextSpan(
+              text: '',
+              style: Theme.of(viewService.context).appBarTheme.textTheme.title,
+              children: <TextSpan>[
+                if (!state.retweetedStatus.user.name.isEmpty)
+                  TextSpan(
+                      text: '@${state.retweetedStatus.user.name}', //
+                      style: Theme.of(viewService.context)
+                          .textTheme
+                          .subtitle
+                          .copyWith(color: GpColors.sourceColor)),
+                if (!state.retweetedStatus.text.isEmpty)
+                  TextSpan(
+                      text: ':${state.retweetedStatus.text}',
+                      style: Theme.of(viewService.context)
+                          .textTheme
+                          .subtitle
+                          .copyWith(color: GpColors.retweetedColor)),
+              ],
+            ),
+          ),
+        ),
+      _getCustomImageView(state, dispatch, viewService),
+    ],
   );
 }
 
 Widget _getCustomImageView(
     Item state, Dispatch dispatch, ViewService viewService) {
   List<Pic> picArray = [];
-  if (state.picUrls == null || state.picUrls.length == 0) {
+  List<Pic> picList = state.retweetedStatus != null
+      ? state.retweetedStatus.picUrls
+      : state.picUrls;
+  if (picList == null || picList.length == 0) {
     return Container();
-  } else if (state.picUrls.length > 9) {
-    for (int i = 0; i < state.picUrls.length; ++i) {
+  } else if (picList.length > 9) {
+    for (int i = 0; i < picList.length; ++i) {
       if (i > 8) {
         break;
       }
-      picArray.add(state.picUrls[i]);
+      picArray.add(picList[i]);
     }
+  } else if (picList.length == 1) {
+    return ImageView(
+      imgUrl: picList[0].thumbnailPic,
+      fit: BoxFit.fitWidth,
+      picUrls: picList,
+    );
+//    return _getImage(state.picUrls[0].thumbnailPic);
   } else {
-    for (int i = 0; i < state.picUrls.length; ++i) {
-      picArray.add(state.picUrls[i]);
+    for (int i = 0; i < picList.length; ++i) {
+      picArray.add(picList[i]);
     }
   }
   return GridView.count(
-    crossAxisCount: (picArray.length >= 3) ? 3 : picArray.length,
+    crossAxisCount: 3,
     mainAxisSpacing: 5,
     crossAxisSpacing: 5,
     physics: NeverScrollableScrollPhysics(),
 //    padding: const EdgeInsets.all(10),
     shrinkWrap: true,
     children: picArray.map((pic) {
-      return _getImage(pic.thumbnailPic);
+      return _getImage(pic.thumbnailPic, picList);
     }).toList(),
   );
 }
 
-Widget _getImage(String picUrl) {
+Widget _getImage(String picUrl, List<Pic> pics) {
   return ImageView(
     imgUrl: picUrl,
+    fit: BoxFit.cover,
+    picUrls: pics,
   );
 }
 
 Widget _getBottomRow(Item state, Dispatch dispatch, ViewService viewService) {
   return Container(
-    height: 50,
-    color: GpColors.randomColor(),
+    height: 40,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: <Widget>[
+        _commonRow(IconF.zhuanfa, '转发', viewService.context),
+        _commonRow(IconF.xinxi, '评论', viewService.context),
+        _commonRow(IconF.dianzan, '点赞', viewService.context),
+      ],
+    ),
+  );
+}
+
+Widget _commonRow(IconData data, String text, BuildContext context) {
+  return Row(
+    children: <Widget>[
+      Icon(
+        data,
+        size: 20,
+      ),
+      Padding(
+        padding: const EdgeInsets.only(left: 3),
+        child: Text(
+          text,
+          style: Theme.of(context).textTheme.body1,
+        ),
+      ),
+    ],
   );
 }
