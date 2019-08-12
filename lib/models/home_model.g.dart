@@ -73,6 +73,9 @@ Item _$ItemFromJson(Map<String, dynamic> json) {
     ..user = json['user'] == null
         ? null
         : User.fromJson(json['user'] as Map<String, dynamic>)
+    ..retweetedStatus = json['retweeted_status'] == null
+        ? null
+        : Item.fromJson(json['retweeted_status'] as Map<String, dynamic>)
     ..repostsCount = json['reposts_count'] as int
     ..commentsCount = json['comments_count'] as int
     ..attitudesCount = json['attitudes_count'] as int
@@ -127,6 +130,7 @@ Map<String, dynamic> _$ItemToJson(Item instance) => <String, dynamic>{
       'is_paid': instance.paid,
       'mblog_vip_type': instance.mblogVipType,
       'user': instance.user,
+      'retweeted_status': instance.retweetedStatus,
       'reposts_count': instance.repostsCount,
       'comments_count': instance.commentsCount,
       'attitudes_count': instance.attitudesCount,

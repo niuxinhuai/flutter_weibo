@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'home_model.g.dart';
 
+// https://open.weibo.com/wiki/常见返回对象数据结构#.E5.BE.AE.E5.8D.9A.EF.BC.88status.EF.BC.89
 @JsonSerializable()
 class HomeModel {
   @JsonKey(name: "has_unread")
@@ -41,7 +42,7 @@ class HomeModel {
 @JsonSerializable()
 class Item {
   @JsonKey(name: "created_at")
-  String createdAt;
+  String createdAt; // 微博创建时间
   int id;
   String idstr;
   String mid;
@@ -49,15 +50,15 @@ class Item {
   bool canEdit;
   @JsonKey(name: "show_additional_indication")
   int showAdd;
-  String text;
+  String text; // 微博信息内容
   int textLength;
   @JsonKey(name: "source_allowclick")
   int allowClick;
   @JsonKey(name: "source_type")
   int sourceType;
-  String source;
-  bool favorited;
-  bool truncated;
+  String source; // 微博来源
+  bool favorited; // 是否已收藏，true：是，false：否
+  bool truncated; // 是否被截断，true：是，false：否
 
   @JsonKey(name: "in_reply_to_status_id")
   String inReplyToStatusId;
@@ -68,22 +69,24 @@ class Item {
   @JsonKey(name: "pic_urls")
   List<Pic> picUrls;
   @JsonKey(name: "thumbnail_pic")
-  String thumbnailPic;
+  String thumbnailPic; // 缩略图片地址，没有时不返回此字段
   @JsonKey(name: "bmiddle_pic")
-  String bmiddlePic;
+  String bmiddlePic; // 中等尺寸图片地址，没有时不返回此字段
   @JsonKey(name: "original_pic")
-  String originalPic;
+  String originalPic; // 原始图片地址，没有时不返回此字段
   @JsonKey(name: "is_paid")
   bool paid;
   @JsonKey(name: "mblog_vip_type")
   int mblogVipType;
-  User user;
+  User user; // 微博作者的用户信息字段
+  @JsonKey(name: "retweeted_status")
+  Item retweetedStatus; // 被转发的原微博信息字段，当该微博为转发微博时返回
   @JsonKey(name: "reposts_count")
-  int repostsCount;
+  int repostsCount; // 转发数
   @JsonKey(name: "comments_count")
-  int commentsCount;
+  int commentsCount; // 评论数
   @JsonKey(name: "attitudes_count")
-  int attitudesCount;
+  int attitudesCount; // 表态数
   @JsonKey(name: "pending_approval_count")
   int pendingApprovalCount;
   bool isLongText;
@@ -161,17 +164,17 @@ class User {
   String weihao;
   String gender;
   @JsonKey(name: "followers_count")
-  int followersCount;
+  int followersCount; // 粉丝数
   @JsonKey(name: "friends_count")
-  int friendsCount;
+  int friendsCount; // 关注数
   @JsonKey(name: "pagefriends_count")
   int pagefriendsCount;
   @JsonKey(name: "statuses_count")
-  int statusesCount;
+  int statusesCount; // 微博数
   @JsonKey(name: "video_status_count")
   int videoStatusCount;
   @JsonKey(name: "favourites_count")
-  int favouritesCount;
+  int favouritesCount; // 收藏数
   @JsonKey(name: "created_at")
   String createdAt;
   bool following;
