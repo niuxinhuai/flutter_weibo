@@ -82,4 +82,5 @@ class GpColors {
   static const Color titleColor = Color(0xFFE36B2B);
   static const Color detailColor = Color(0xFF949494);
   static const Color sourceColor = Color(0xFF5A7CAB);
+  static const Color retweetedColor = Color(0xFF636363);
 }
