@@ -11,12 +11,19 @@ class DateTimeUtil {
 
   static String getTimeDuration(String comTime) {
     var nowTime = DateTime.now();
-    // Fri Aug 09 20:24:34 +0800 2019 // ddd MMM dd HH:mm:ss zzz yyyy
-    var format = DateFormat('EEE MMM d HH:mm:ss Z yyyy', 'en_US');
+    // Fri Aug 09 20:24:34 +0800 2019 // ddd MMM dd HH:mm:ss zzz yyyy / EEE MMM dd HH:mm:ss Z yyyy /
+// DateFormat("MMM dd hh:mm:ss Z yyyy", "en_US").parse(comTime, true)
+    final String zone = " +0800";
+    String timeStr = comTime;
+    if (comTime.contains(zone)) {
+      timeStr = comTime.replaceAll(zone, "");
+    }
 
-    print('>>>>>>>date:$comTime');
-    print('>>>>>>>>>>>${format.parse(comTime)}');
-    var compareTime = DateTime.parse(comTime);
+//    print(
+//        '${DateFormat.E().add_MMMd().add_Hms().add_y().format(DateTime.now())} ${comTime} ${timeStr}');
+
+    var compareTime =
+        DateFormat("EEE MMM dd HH:mm:ss yyyy", "en_US").parse(timeStr);
     if (nowTime.isAfter(compareTime)) {
       if (nowTime.year == compareTime.year) {
         if (nowTime.month == compareTime.month) {
