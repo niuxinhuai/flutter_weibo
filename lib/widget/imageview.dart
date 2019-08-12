@@ -19,6 +19,11 @@ class ImageView extends StatelessWidget {
     if (imgUrl.contains('thumbnail')) {
       reImageUrl = imgUrl.replaceAll('thumbnail', 'large');
     }
+
+    var bmiddleUrl = imgUrl;
+    if (imgUrl.contains('thumbnail')) {
+      bmiddleUrl = imgUrl.replaceAll('thumbnail', 'bmiddle');
+    }
     return GestureDetector(
       onTap: () {
 //        print('>>>>>>name: $imgUrl');
@@ -29,11 +34,13 @@ class ImageView extends StatelessWidget {
               imageUrl: imgUrl,
             ));
       },
-      child: Hero(
-        tag: reImageUrl,
-        child: CachedNetworkImage(
-          imageUrl: imgUrl,
-          fit: fit,
+      child: SingleChildScrollView(
+        child: Hero(
+          tag: reImageUrl,
+          child: CachedNetworkImage(
+            imageUrl: reImageUrl,
+            fit: fit,
+          ),
         ),
       ),
     );

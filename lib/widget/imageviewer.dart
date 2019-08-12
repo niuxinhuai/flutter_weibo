@@ -36,13 +36,15 @@ class _ImageViewerState extends State<ImageViewer> {
           child: Container(
 //        color: Colors.black,
             color: Colors.transparent,
-            child: Hero(
-              tag: reImageUrl,
-              child: Center(
-                child: CachedNetworkImage(
-                  imageUrl: reImageUrl,
-                  fit: BoxFit.contain,
-                  placeholder: (context, url) => new Loading(),
+            child: SingleChildScrollView(
+              child: Hero(
+                tag: reImageUrl,
+                child: Center(
+                  child: CachedNetworkImage(
+                    imageUrl: reImageUrl,
+                    fit: BoxFit.contain,
+                    placeholder: (context, url) => new Loading(),
+                  ),
                 ),
               ),
             ),
