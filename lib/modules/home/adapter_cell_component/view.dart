@@ -9,10 +9,10 @@ import 'package:weibo_flutter/const/sp_helper.dart';
 import 'package:weibo_flutter/models/home_model.dart';
 import 'package:weibo_flutter/utils/date.dart';
 import 'package:weibo_flutter/utils/string.dart';
-import 'package:weibo_flutter/widget/imageview.dart';
+import 'package:weibo_flutter/widget/image/borderAvatarImage.dart';
+import 'package:weibo_flutter/widget/image/imageview.dart';
 
 Widget buildView(Item state, Dispatch dispatch, ViewService viewService) {
-  _gg();
   return Container(
     color: GpColors.keyboardPressBgColor,
     child: Container(
@@ -24,12 +24,6 @@ Widget buildView(Item state, Dispatch dispatch, ViewService viewService) {
       ),
     ),
   );
-}
-
-void _gg() async {
-  SpHelper sp = await SpHelper.getInstance();
-  print(
-      '>>>>>>>当前的时间戳是:${DateTime.now().millisecondsSinceEpoch / 1000}, exin: ${int.parse(sp.getExpiresTime()) / 10 / 60 / 60 / 24}  max: ${1565427747258 + 157679999}');
 }
 
 Widget _getItemView(Item state, Dispatch dispatch, ViewService viewService) {
@@ -49,19 +43,8 @@ Widget _getHeaderRow(Item state, Dispatch dispatch, ViewService viewService) {
     margin: const EdgeInsets.only(bottom: 10),
     child: Row(
       children: <Widget>[
-        Container(
-          width: 35,
-          height: 35,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(17.5)),
-              border: Border.all(
-                  width: 1, color: GpColors.dialogCancelBtnTextColor)),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(17.5),
-            child: CachedNetworkImage(
-              imageUrl: state.user.profileImageUrl,
-            ),
-          ),
+        BorderAvatarImage(
+          avatarUrl: state.user.profileImageUrl,
         ),
         Expanded(
           child: Padding(
@@ -137,7 +120,9 @@ Widget _getImageView(Item state, Dispatch dispatch, ViewService viewService) {
   return Container(
     padding: const EdgeInsets.only(top: 5, bottom: 5),
     child: _getImageViewColumn(state, dispatch, viewService),
-    color: GpColors.keyboardPressBgColor,
+    color: state.retweetedStatus == null
+        ? Colors.white
+        : GpColors.keyboardPressBgColor,
   );
 }
 
@@ -195,7 +180,7 @@ Widget _getCustomImageView(
   } else if (picList.length == 1) {
     return ImageView(
       imgUrl: picList[0].thumbnailPic,
-      fit: BoxFit.fitWidth,
+      fit: BoxFit.scaleDown,
       picUrls: picList,
     );
 //    return _getImage(state.picUrls[0].thumbnailPic);
@@ -228,12 +213,30 @@ Widget _getImage(String picUrl, List<Pic> pics) {
 Widget _getBottomRow(Item state, Dispatch dispatch, ViewService viewService) {
   return Container(
     height: 40,
+    decoration: BoxDecoration(
+//      color: normalColor,
+      border: BorderDirectional(
+        top: BorderSide(
+            color: GpColors.appbarLineColor,
+            width: 1.0,
+            style: BorderStyle.solid),
+      ),
+    ),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
-        _commonRow(IconF.zhuanfa, '转发', viewService.context),
-        _commonRow(IconF.xinxi, '评论', viewService.context),
-        _commonRow(IconF.dianzan, '点赞', viewService.context),
+        _commonRow(
+            IconF.zhuanfa,
+            state.repostsCount == 0 ? '转发' : '${state.repostsCount}',
+            viewService.context),
+        _commonRow(
+            IconF.xinxi,
+            state.commentsCount == 0 ? '评论' : '${state.commentsCount}',
+            viewService.context),
+        _commonRow(
+            IconF.dianzan,
+            state.attitudesCount == 0 ? '点赞' : '${state.attitudesCount}',
+            viewService.context),
       ],
     ),
   );

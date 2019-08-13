@@ -20,4 +20,22 @@ class StringUtil {
     }
     return source;
   }
+
+  //* 获取高清图片 */
+  static String getLargeImageUrlString(String normalImageUrl) {
+    String large = normalImageUrl;
+    if (normalImageUrl.contains('thumbnail')) {
+      large = normalImageUrl.replaceAll('thumbnail', 'large');
+    }
+    return large;
+  }
+
+  //* 获取标清图片 */
+  static String getBmiddleImageUrlString(String normalImageUrl) {
+    String bmiddle = normalImageUrl;
+    if (normalImageUrl.contains('thumbnail')) {
+      bmiddle = normalImageUrl.replaceAll('thumbnail', 'large');
+    }
+    return bmiddle;
+  }
 }
