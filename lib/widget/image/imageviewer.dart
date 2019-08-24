@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:weibo_flutter/models/home_model.dart';
 import 'package:weibo_flutter/router/router.dart';
 import 'package:weibo_flutter/utils/string.dart';
 import 'package:weibo_flutter/widget/loading.dart';
@@ -36,12 +35,13 @@ class _ImageViewerState extends State<ImageViewer> {
         return GestureDetector(
           onTap: () => Router.pop(context),
           child: Container(
-//        color: Colors.black,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
             color: Colors.transparent,
-            child: SingleChildScrollView(
-              child: Hero(
-                tag: largeImageUrl,
-                child: Center(
+            child: Center(
+              child: SingleChildScrollView(
+                child: Hero(
+                  tag: largeImageUrl,
                   child: CachedNetworkImage(
                     imageUrl: largeImageUrl,
                     fit: BoxFit.contain,
