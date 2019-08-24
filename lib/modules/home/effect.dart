@@ -24,4 +24,5 @@ void getSource(Action action, Context<HomeState> ctx) async {
 //  print('>>>>>>>>拿到的token是 ${token}');
   ServiceManager.getHomeTimeLine(token)
       .then((json) => ctx.dispatch(HomeActionCreator.didSource(json)));
+  String uid = ctx.state.sp.getUserUid();
 }

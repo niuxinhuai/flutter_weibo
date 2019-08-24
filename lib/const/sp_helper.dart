@@ -63,6 +63,14 @@ class SpHelper {
     return null;
   }
 
+  String getUserUid() {
+    if (_beforeCheck()) return null;
+    if (_spf.getKeys().contains(UserDefaults.USER_UID)) {
+      return _spf.getString(UserDefaults.USER_UID);
+    }
+    return null;
+  }
+
   String getExpiresTime() {
     if (_beforeCheck()) return null;
     if (_spf.getKeys().contains(UserDefaults.TOKEN_TIME_KEY)) {

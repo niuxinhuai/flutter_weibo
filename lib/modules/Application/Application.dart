@@ -71,6 +71,9 @@ class _ApplicaitonState extends State<Applicaiton>
   //* 授权code回调 */
   _back(String code) {
     ServiceManager.getAccessToken(code).then((models) {
+      SpHelper.setString(
+          (models.expires * 10).toString(), UserDefaults.TOKEN_TIME_KEY);
+      SpHelper.setString(models.uid, UserDefaults.USER_UID);
       SpHelper.setString(models.accessToken, UserDefaults.TOKEN_KEY).then((b) {
         if (b) {
           setState(() {
@@ -78,8 +81,6 @@ class _ApplicaitonState extends State<Applicaiton>
           });
         }
       });
-      SpHelper.setString(
-          (models.expires * 10).toString(), UserDefaults.TOKEN_TIME_KEY);
     });
   }
 
