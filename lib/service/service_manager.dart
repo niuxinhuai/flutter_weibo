@@ -18,8 +18,8 @@ class ServiceManager {
       }).then((json) => OauthToken.fromJson(json));
 
   //* 获取首页信息 */
-  static Future<HomeModel> getHomeTimeLine(String token) =>
+  static Future<HomeModel> getHomeTimeLine(String token,int count, int page) =>
       ServiceHelper.get(API.home_timeline,
-              data: {UserDefaults.TOKEN_KEY: token})
+              data: {UserDefaults.TOKEN_KEY: token,UserDefaults.COUNT: count, UserDefaults.PAGE: page})
           .then((json) => HomeModel.fromJson(json));
 }

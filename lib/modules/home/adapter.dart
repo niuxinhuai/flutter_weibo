@@ -14,10 +14,10 @@ class ListGroupConnector extends ConnOp<HomeState, List<ItemBean>> {
   @override
   List<ItemBean> get(HomeState state) {
     List<ItemBean> items = [];
-    if (state.model.items == null) {
+    if (state.items == null) {
       return items;
     }
-    for (var cellModel in state.model.items) {
+    for (var cellModel in state.items) {
       items.add(ItemBean('cell', cellModel));
     }
     return items;

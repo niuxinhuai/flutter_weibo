@@ -1,8 +1,18 @@
 import 'package:fish_redux/fish_redux.dart';
 import 'package:weibo_flutter/models/home_model.dart';
+import 'package:weibo_flutter/models/home_model.dart';
 
 //TODO replace with your own action
-enum HomeAction { action, didSourceFeatch }
+enum HomeAction {
+  action,
+  didSourceFeatch,
+  onRefresh,
+  onLoading,
+  didRefresh,
+  didLoading,
+  didLoadingError,
+  didRefreshError,
+}
 
 class HomeActionCreator {
   static Action onAction() {
@@ -11,5 +21,29 @@ class HomeActionCreator {
 
   static Action didSource(HomeModel model) {
     return Action(HomeAction.didSourceFeatch, payload: model);
+  }
+
+  static Action onRefreshAction() {
+    return const Action(HomeAction.onRefresh);
+  }
+
+  static Action onLoadingAction() {
+    return const Action(HomeAction.onLoading);
+  }
+
+  static Action didRefresh(HomeModel model) {
+    return Action(HomeAction.didRefresh, payload: model);
+  }
+
+  static Action didLoading(HomeModel model) {
+    return Action(HomeAction.didLoading, payload: model);
+  }
+
+  static Action didLoadingErrorAction() {
+    return const Action(HomeAction.didLoadingError);
+  }
+
+  static Action didRefreshErrorAction() {
+    return const Action(HomeAction.didRefreshError);
   }
 }
