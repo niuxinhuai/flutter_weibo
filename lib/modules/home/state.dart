@@ -9,7 +9,7 @@ class HomeState implements Cloneable<HomeState> {
   List<Item> items;
   SpHelper sp;
   RefreshController refreshController;
-  int count = 5; ///一页返回的最大数量
+  int count = 10; ///一页返回的最大数量
   int page = 1; ///页码
   String token;
   @override

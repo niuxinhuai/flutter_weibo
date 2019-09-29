@@ -110,10 +110,7 @@ Widget _getHeaderRow(Item state, Dispatch dispatch, ViewService viewService) {
 }
 
 Widget _getCenterText(Item state, Dispatch dispatch, ViewService viewService) {
-  return Text(
-    state.text,
-    style: Theme.of(viewService.context).textTheme.body1,
-  );
+  return StringUtil.replaceLargeText(state.text, viewService.context);
 }
 
 Widget _getImageView(Item state, Dispatch dispatch, ViewService viewService) {

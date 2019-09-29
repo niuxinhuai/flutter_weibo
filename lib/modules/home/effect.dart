@@ -30,7 +30,7 @@ void getSource(Action action, Context<HomeState> ctx) async {
   ctx.state.sp = await SpHelper.getInstance();
   String token = ctx.state.sp.getAccessToken();
   ctx.state.token = token;
-//  print('>>>>>>>>拿到的token是 ${token}');
+  print('>>>>>>>>拿到的token是 ${token}');
   ServiceManager.getHomeTimeLine(token,ctx.state.count,ctx.state.page)
       .then((json) => ctx.dispatch(HomeActionCreator.didRefresh(json)));
   String uid = ctx.state.sp.getUserUid();

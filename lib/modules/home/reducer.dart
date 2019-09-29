@@ -20,13 +20,13 @@ HomeState _didSourceAction(HomeState state, Action action) {
   final HomeState newState = state.clone();
   newState.model = model;
   newState.items.clear();
-  newState.items.addAll(model.items);
   if (model == null || model.items == null || model.items.length < newState.count) {
     newState.refreshController.loadNoData();
   } else {
     newState.refreshController.refreshCompleted();
     newState.page ++;
   }
+  newState.items = model.items;
   return newState;
 }
 
