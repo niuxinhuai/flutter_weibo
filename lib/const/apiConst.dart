@@ -12,6 +12,7 @@ class API {
       '/2/statuses/home_timeline.json'; //* home param - none Get*/
   static const send_weibo =
       '/2/statuses/update.json'; //* 发送微博 - param - none */
+  static const friendships = '/2/friendships/friends.json'; //*用户关注列表  */
 
   static getOauthUrl() {
     return API.baseUrl +

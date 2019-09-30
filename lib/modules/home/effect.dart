@@ -22,7 +22,6 @@ void _init(Action action, Context<HomeState> ctx) {
 }
 
 void _onRefresh(Action action, Context<HomeState> ctx) {
-  ctx.state.page = 1;
   _onRefreshing(action, ctx);
 }
 
@@ -30,21 +29,26 @@ void getSource(Action action, Context<HomeState> ctx) async {
   ctx.state.sp = await SpHelper.getInstance();
   String token = ctx.state.sp.getAccessToken();
   ctx.state.token = token;
-  print('>>>>>>>>拿到的token是 ${token}');
-  ServiceManager.getHomeTimeLine(token,ctx.state.count,ctx.state.page)
-      .then((json) => ctx.dispatch(HomeActionCreator.didRefresh(json)));
+
+  HomeModel model = await ServiceManager.getHomeTimeLine(token,ctx.state.count,ctx.state.page);
   String uid = ctx.state.sp.getUserUid();
+  List<User> users = await ServiceManager.getFriendships(token, int.tryParse(uid));
+  print('>>>>>>>>拿到的token是 ${token}  uid:$uid  length:${users.length}');
+  ctx.dispatch(HomeActionCreator.didSource(model, users));
+
 }
 
 void _onRefreshing(Action action, Context<HomeState> ctx) {
-  ServiceManager.getHomeTimeLine(ctx.state.token,ctx.state.count,ctx.state.page)
+  ServiceManager.getHomeTimeLine(ctx.state.token,ctx.state.count,1)
       .then((json) => ctx.dispatch(HomeActionCreator.didRefresh(json)))
       .catchError((onError, stackTrace) => ctx.dispatch(HomeActionCreator.didRefreshErrorAction()));
 }
 
 ///loading more
 void _onLoading(Action action, Context<HomeState> ctx) {
-
+  if (ctx.state.page == 1) {
+    ctx.state.page ++;
+  }
   _loadingMoreData(action, ctx);
 }
 

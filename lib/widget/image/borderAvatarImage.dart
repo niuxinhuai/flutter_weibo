@@ -7,7 +7,8 @@ class BorderAvatarImage extends StatelessWidget {
   final String avatarUrl;
   final double width;
   final double height;
-  BorderAvatarImage({this.avatarUrl, this.width = 35, this.height = 35});
+  final Border border;
+  BorderAvatarImage({this.avatarUrl, this.width = 35, this.height = 35,this.border});
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +18,11 @@ class BorderAvatarImage extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(width / 2)),
           border:
-              Border.all(width: 1, color: GpColors.dialogCancelBtnTextColor)),
+              border ?? Border.all(width: 1, color: GpColors.dialogCancelBtnTextColor)),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(17.5),
+        borderRadius: BorderRadius.circular(width / 2),
         child: CachedNetworkImage(
+          fit: BoxFit.fill,
           imageUrl: avatarUrl,
         ),
       ),

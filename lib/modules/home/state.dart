@@ -7,6 +7,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 class HomeState implements Cloneable<HomeState> {
   HomeModel model;
   List<Item> items;
+  List<User> users;
   SpHelper sp;
   RefreshController refreshController;
   int count = 10; ///一页返回的最大数量
@@ -17,6 +18,7 @@ class HomeState implements Cloneable<HomeState> {
     return HomeState()
       ..model = model
       ..items = items
+      ..users = users
       ..refreshController = refreshController
       ..count = count
       ..page = page
@@ -26,5 +28,5 @@ class HomeState implements Cloneable<HomeState> {
 }
 
 HomeState initState(Map<String, dynamic> args) {
-  return HomeState()..model = HomeModel()..refreshController = RefreshController(initialRefresh: false)..items = [];
+  return HomeState()..model = HomeModel()..refreshController = RefreshController(initialRefresh: false)..items = []..users = [];
 }

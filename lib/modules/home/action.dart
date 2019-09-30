@@ -19,8 +19,8 @@ class HomeActionCreator {
     return const Action(HomeAction.action);
   }
 
-  static Action didSource(HomeModel model) {
-    return Action(HomeAction.didSourceFeatch, payload: model);
+  static Action didSource(HomeModel model, List<User> user) {
+    return Action(HomeAction.didSourceFeatch, payload: Tuple2(model,user));
   }
 
   static Action onRefreshAction() {

@@ -5,4 +5,5 @@ class UserDefaults {
   static const USER_UID = 'uid';
   static const COUNT = 'count';
   static const PAGE = 'page';
+  static const UID = 'uid';
 }

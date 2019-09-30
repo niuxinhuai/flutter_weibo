@@ -22,4 +22,18 @@ class ServiceManager {
       ServiceHelper.get(API.home_timeline,
               data: {UserDefaults.TOKEN_KEY: token,UserDefaults.COUNT: count, UserDefaults.PAGE: page})
           .then((json) => HomeModel.fromJson(json));
+
+  //* 获取用户关注列表 */
+static Future<List<User>> getFriendships(String token, int uid) =>
+      ServiceHelper.get(API.friendships,
+      data: {UserDefaults.TOKEN_KEY: token, UserDefaults.UID: uid})
+          .then((json) {
+            List array = json['users'];
+            print('>>>>>原始数量${array.length}');
+            List<User> users = [];
+            for (var u in array) {
+              users.add(User.fromJson(u));
+            }
+            return users;
+      });
 }

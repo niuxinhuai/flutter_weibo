@@ -7,15 +7,33 @@ import 'state.dart';
 Reducer<HomeState> buildReducer() {
   return asReducer(
     <Object, Reducer<HomeState>>{
+      HomeAction.didSourceFeatch: _didSourceFeatchAction,
       HomeAction.didLoading: _didLoadingAction,
       HomeAction.didLoadingError: _didLoadingErrorAction,
-      HomeAction.didRefresh: _didSourceAction,
+      HomeAction.didRefresh: _didRefreshAction,
       HomeAction.didRefreshError: didRefreshErrorAction,
     },
   );
 }
 
-HomeState _didSourceAction(HomeState state, Action action) {
+HomeState _didSourceFeatchAction(HomeState state, Action action) {
+  final Tuple2<HomeModel, List<User>> t2 = action.payload;
+  final HomeState newState = state.clone();
+  newState.model = t2.i0;
+  newState.items.clear();
+  if (t2.i0 == null || t2.i0.items == null || t2.i0.items.length < newState.count) {
+    newState.refreshController.loadNoData();
+  } else {
+    newState.refreshController.refreshCompleted();
+    newState.page ++;
+  }
+  newState.items = t2.i0.items;
+  newState.users = t2.i1;
+  newState.users.insert(0, User());
+  return newState;
+}
+
+HomeState _didRefreshAction(HomeState state, Action action) {
   final HomeModel model = action.payload;
   final HomeState newState = state.clone();
   newState.model = model;
@@ -24,7 +42,6 @@ HomeState _didSourceAction(HomeState state, Action action) {
     newState.refreshController.loadNoData();
   } else {
     newState.refreshController.refreshCompleted();
-    newState.page ++;
   }
   newState.items = model.items;
   return newState;
