@@ -13,6 +13,7 @@ class API {
   static const send_weibo =
       '/2/statuses/update.json'; //* 发送微博 - param - none */
   static const friendships = '/2/friendships/friends.json'; //*用户关注列表  */
+  static const emotions = '/2/emotions.json'; //* 获取表情包 */
 
   static getOauthUrl() {
     return API.baseUrl +
