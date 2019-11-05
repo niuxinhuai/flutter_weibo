@@ -6,7 +6,7 @@ part of 'oauth_token.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-OauthToken _$OauthTokenFromJson(Map<String, dynamic> json) {
+OauthToken _$OauthTokenFromJson(Map json) {
   return OauthToken()
     ..accessToken = json['access_token'] as String
     ..expires = json['expires_in'] as int

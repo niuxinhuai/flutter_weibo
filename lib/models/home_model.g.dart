@@ -6,7 +6,7 @@ part of 'home_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-HomeModel _$HomeModelFromJson(Map<String, dynamic> json) {
+HomeModel _$HomeModelFromJson(Map json) {
   return HomeModel()
     ..hasUnread = json['has_unread'] as int
     ..maxIdStr = json['max_id_str'] as String
@@ -22,8 +22,11 @@ HomeModel _$HomeModelFromJson(Map<String, dynamic> json) {
     ..previousCursor = json['previous_cursor'] as int
     ..hasvisible = json['hasvisible'] as bool
     ..items = (json['statuses'] as List)
-        ?.map(
-            (e) => e == null ? null : Item.fromJson(e as Map<String, dynamic>))
+        ?.map((e) => e == null
+            ? null
+            : Item.fromJson((e as Map)?.map(
+                (k, e) => MapEntry(k as String, e),
+              )))
         ?.toList();
 }
 
@@ -44,7 +47,7 @@ Map<String, dynamic> _$HomeModelToJson(HomeModel instance) => <String, dynamic>{
       'statuses': instance.items,
     };
 
-Item _$ItemFromJson(Map<String, dynamic> json) {
+Item _$ItemFromJson(Map json) {
   return Item()
     ..createdAt = json['created_at'] as String
     ..id = json['id'] as int
@@ -63,7 +66,11 @@ Item _$ItemFromJson(Map<String, dynamic> json) {
     ..inReplyToUserId = json['in_reply_to_user_id'] as String
     ..inReplyToScreenName = json['in_reply_to_screen_name'] as String
     ..picUrls = (json['pic_urls'] as List)
-        ?.map((e) => e == null ? null : Pic.fromJson(e as Map<String, dynamic>))
+        ?.map((e) => e == null
+            ? null
+            : Pic.fromJson((e as Map)?.map(
+                (k, e) => MapEntry(k as String, e),
+              )))
         ?.toList()
     ..thumbnailPic = json['thumbnail_pic'] as String
     ..bmiddlePic = json['bmiddle_pic'] as String
@@ -72,10 +79,14 @@ Item _$ItemFromJson(Map<String, dynamic> json) {
     ..mblogVipType = json['mblog_vip_type'] as int
     ..user = json['user'] == null
         ? null
-        : User.fromJson(json['user'] as Map<String, dynamic>)
+        : User.fromJson((json['user'] as Map)?.map(
+            (k, e) => MapEntry(k as String, e),
+          ))
     ..retweetedStatus = json['retweeted_status'] == null
         ? null
-        : Item.fromJson(json['retweeted_status'] as Map<String, dynamic>)
+        : Item.fromJson((json['retweeted_status'] as Map)?.map(
+            (k, e) => MapEntry(k as String, e),
+          ))
     ..repostsCount = json['reposts_count'] as int
     ..commentsCount = json['comments_count'] as int
     ..attitudesCount = json['attitudes_count'] as int
@@ -87,7 +98,9 @@ Item _$ItemFromJson(Map<String, dynamic> json) {
     ..mlevel = json['mlevel'] as int
     ..visible = json['visible'] == null
         ? null
-        : Visible.fromJson(json['visible'] as Map<String, dynamic>)
+        : Visible.fromJson((json['visible'] as Map)?.map(
+            (k, e) => MapEntry(k as String, e),
+          ))
     ..bizFature = json['biz_feature'] as int
     ..hasActionTypeCard = json['hasActionTypeCard'] as int
     ..mblogtype = json['mblogtype'] as int
@@ -98,7 +111,9 @@ Item _$ItemFromJson(Map<String, dynamic> json) {
     ..numberDisplayStrategy = json['number_display_strategy'] == null
         ? null
         : DisplayStrategy.fromJson(
-            json['number_display_strategy'] as Map<String, dynamic>)
+            (json['number_display_strategy'] as Map)?.map(
+            (k, e) => MapEntry(k as String, e),
+          ))
     ..positiveRecomFlag = json['positive_recom_flag'] as int
     ..contentAuth = json['content_auth'] as int
     ..gifIds = json['gif_ids'] as String
@@ -156,7 +171,7 @@ Map<String, dynamic> _$ItemToJson(Item instance) => <String, dynamic>{
       'pic_num': instance.picNum,
     };
 
-Pic _$PicFromJson(Map<String, dynamic> json) {
+Pic _$PicFromJson(Map json) {
   return Pic()..thumbnailPic = json['thumbnail_pic'] as String;
 }
 
@@ -164,7 +179,7 @@ Map<String, dynamic> _$PicToJson(Pic instance) => <String, dynamic>{
       'thumbnail_pic': instance.thumbnailPic,
     };
 
-User _$UserFromJson(Map<String, dynamic> json) {
+User _$UserFromJson(Map json) {
   return User()
     ..id = json['id'] as int
     ..idstr = json['idstr'] as String
@@ -241,7 +256,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'verified_trade': instance.verifiedTrade,
     };
 
-Visible _$VisibleFromJson(Map<String, dynamic> json) {
+Visible _$VisibleFromJson(Map json) {
   return Visible()
     ..type = json['type'] as int
     ..listId = json['list_id'] as int;
@@ -252,7 +267,7 @@ Map<String, dynamic> _$VisibleToJson(Visible instance) => <String, dynamic>{
       'list_id': instance.listId,
     };
 
-DisplayStrategy _$DisplayStrategyFromJson(Map<String, dynamic> json) {
+DisplayStrategy _$DisplayStrategyFromJson(Map json) {
   return DisplayStrategy()
     ..applyScenarioFlag = json['list_id'] as int
     ..displayTextMinNumber = json['display_text_min_number'] as int
