@@ -3,11 +3,9 @@ import 'package:weibo_flutter/models/home_model.dart';
 
 import 'view.dart';
 
-class ListCellComponent extends Component<Item> {
+class ListCellComponent extends Component<List<dynamic>> {
   ListCellComponent()
       : super(
           view: buildView,
-          dependencies: Dependencies<Item>(
-              adapter: null, slots: <String, Dependent<Item>>{}),
         );
 }

@@ -23,7 +23,7 @@ class ListGroupConnector extends ConnOp<HomeState, List<ItemBean>> {
       items.add(ItemBean('header', state.users));
     }
     for (var cellModel in state.items) {
-      items.add(ItemBean('cell', cellModel));
+      items.add(ItemBean('cell', [cellModel, state.emotions]));
     }
     return items;
   }

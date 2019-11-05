@@ -1,5 +1,6 @@
 import 'package:fish_redux/fish_redux.dart';
 import 'package:weibo_flutter/const/sp_helper.dart';
+import 'package:weibo_flutter/models/emotions/emotion.dart';
 import 'package:weibo_flutter/models/home_model.dart';
 import 'package:weibo_flutter/service/service_manager.dart';
 import 'action.dart';
@@ -30,30 +31,35 @@ void getSource(Action action, Context<HomeState> ctx) async {
   String token = ctx.state.sp.getAccessToken();
   ctx.state.token = token;
 
-  HomeModel model = await ServiceManager.getHomeTimeLine(token,ctx.state.count,ctx.state.page);
+  List<EmotionItem> emotionItems = await ServiceManager.getEmotions(token);
+  HomeModel model = await ServiceManager.getHomeTimeLine(
+      token, ctx.state.count, ctx.state.page);
   String uid = ctx.state.sp.getUserUid();
-  List<User> users = await ServiceManager.getFriendships(token, int.tryParse(uid));
+  List<User> users =
+      await ServiceManager.getFriendships(token, int.tryParse(uid));
   print('>>>>>>>>拿到的token是 ${token}  uid:$uid  length:${users.length}');
-  ctx.dispatch(HomeActionCreator.didSource(model, users));
-
+  ctx.dispatch(HomeActionCreator.didSource(model, users, emotionItems));
 }
 
 void _onRefreshing(Action action, Context<HomeState> ctx) {
-  ServiceManager.getHomeTimeLine(ctx.state.token,ctx.state.count,1)
+  ServiceManager.getHomeTimeLine(ctx.state.token, ctx.state.count, 1)
       .then((json) => ctx.dispatch(HomeActionCreator.didRefresh(json)))
-      .catchError((onError, stackTrace) => ctx.dispatch(HomeActionCreator.didRefreshErrorAction()));
+      .catchError((onError, stackTrace) =>
+          ctx.dispatch(HomeActionCreator.didRefreshErrorAction()));
 }
 
 ///loading more
 void _onLoading(Action action, Context<HomeState> ctx) {
   if (ctx.state.page == 1) {
-    ctx.state.page ++;
+    ctx.state.page++;
   }
   _loadingMoreData(action, ctx);
 }
 
 void _loadingMoreData(Action action, Context<HomeState> ctx) {
-  ServiceManager.getHomeTimeLine(ctx.state.token,ctx.state.count,ctx.state.page)
+  ServiceManager.getHomeTimeLine(
+          ctx.state.token, ctx.state.count, ctx.state.page)
       .then((json) => ctx.dispatch(HomeActionCreator.didLoading(json)))
-      .catchError((onError, stackTrace) => ctx.dispatch(HomeActionCreator.didLoadingErrorAction()));
+      .catchError((onError, stackTrace) =>
+          ctx.dispatch(HomeActionCreator.didLoadingErrorAction()));
 }

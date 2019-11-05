@@ -6,13 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:weibo_flutter/const/colors.dart';
 import 'package:weibo_flutter/const/iconfont.dart';
 import 'package:weibo_flutter/const/sp_helper.dart';
+import 'package:weibo_flutter/models/emotions/emotion.dart';
 import 'package:weibo_flutter/models/home_model.dart';
 import 'package:weibo_flutter/utils/date.dart';
 import 'package:weibo_flutter/utils/string.dart';
+import 'package:weibo_flutter/widget/attributed/AttributeString.dart';
 import 'package:weibo_flutter/widget/image/borderAvatarImage.dart';
 import 'package:weibo_flutter/widget/image/imageview.dart';
 
-Widget buildView(Item state, Dispatch dispatch, ViewService viewService) {
+Widget buildView(
+    List<dynamic> array, Dispatch dispatch, ViewService viewService) {
+  Item state = array.first as Item;
+  List<EmotionItem> emotions = array.last as List<EmotionItem>;
   return Container(
     color: GpColors.keyboardPressBgColor,
     child: Container(
@@ -20,19 +25,20 @@ Widget buildView(Item state, Dispatch dispatch, ViewService viewService) {
       color: GpColors.foregroundColor,
       child: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-        child: _getItemView(state, dispatch, viewService),
+        child: _getItemView(state, dispatch, viewService, emotions),
       ),
     ),
   );
 }
 
-Widget _getItemView(Item state, Dispatch dispatch, ViewService viewService) {
+Widget _getItemView(Item state, Dispatch dispatch, ViewService viewService,
+    List<EmotionItem> items) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
       _getHeaderRow(state, dispatch, viewService),
-      _getCenterText(state, dispatch, viewService),
-      _getImageView(state, dispatch, viewService),
+      _getCenterText(state, dispatch, viewService, items),
+      _getImageView(state, dispatch, viewService, items),
       _getBottomRow(state, dispatch, viewService),
     ],
   );
@@ -70,7 +76,7 @@ Widget _getHeaderRow(Item state, Dispatch dispatch, ViewService viewService) {
                           .overline
                           .copyWith(color: GpColors.detailColor),
                     ),
-                    if (!state.source.isEmpty)
+                    if (state.source.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(left: 5),
                         child: RichText(
@@ -109,50 +115,36 @@ Widget _getHeaderRow(Item state, Dispatch dispatch, ViewService viewService) {
   );
 }
 
-Widget _getCenterText(Item state, Dispatch dispatch, ViewService viewService) {
-  return StringUtil.replaceLargeText(state.text, viewService.context);
+Widget _getCenterText(Item state, Dispatch dispatch, ViewService viewService,
+    List<EmotionItem> items) {
+  print('>>>>>${state.text}');
+//  String text =
+  return AttributeString(state.text, items);
 }
 
-Widget _getImageView(Item state, Dispatch dispatch, ViewService viewService) {
+Widget _getImageView(Item state, Dispatch dispatch, ViewService viewService,
+    List<EmotionItem> items) {
   return Container(
     padding: const EdgeInsets.only(top: 5, bottom: 5),
-    child: _getImageViewColumn(state, dispatch, viewService),
+    child: _getImageViewColumn(state, dispatch, viewService, items),
     color: state.retweetedStatus == null
         ? Colors.white
         : GpColors.keyboardPressBgColor,
   );
 }
 
-Widget _getImageViewColumn(
-    Item state, Dispatch dispatch, ViewService viewService) {
+Widget _getImageViewColumn(Item state, Dispatch dispatch,
+    ViewService viewService, List<EmotionItem> items) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
       if (state.retweetedStatus != null)
         Padding(
           padding: const EdgeInsets.only(bottom: 5),
-          child: RichText(
-            text: TextSpan(
-              text: '',
-              style: Theme.of(viewService.context).appBarTheme.textTheme.title,
-              children: <TextSpan>[
-                if (!state.retweetedStatus.user.name.isEmpty)
-                  TextSpan(
-                      text: '@${state.retweetedStatus.user.name}', //
-                      style: Theme.of(viewService.context)
-                          .textTheme
-                          .subtitle
-                          .copyWith(color: GpColors.sourceColor)),
-                if (!state.retweetedStatus.text.isEmpty)
-                  TextSpan(
-                      text: ':${state.retweetedStatus.text}',
-                      style: Theme.of(viewService.context)
-                          .textTheme
-                          .subtitle
-                          .copyWith(color: GpColors.retweetedColor)),
-              ],
-            ),
-          ),
+          child: AttributeString(
+              '@${state.retweetedStatus.user.name}:' +
+                  state.retweetedStatus.text,
+              items),
         ),
       _getCustomImageView(state, dispatch, viewService),
     ],

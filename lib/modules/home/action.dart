@@ -1,4 +1,5 @@
 import 'package:fish_redux/fish_redux.dart';
+import 'package:weibo_flutter/models/emotions/emotion.dart';
 import 'package:weibo_flutter/models/home_model.dart';
 import 'package:weibo_flutter/models/home_model.dart';
 
@@ -19,8 +20,10 @@ class HomeActionCreator {
     return const Action(HomeAction.action);
   }
 
-  static Action didSource(HomeModel model, List<User> user) {
-    return Action(HomeAction.didSourceFeatch, payload: Tuple2(model,user));
+  static Action didSource(
+      HomeModel model, List<User> user, List<EmotionItem> items) {
+    return Action(HomeAction.didSourceFeatch,
+        payload: Tuple3(model, user, items));
   }
 
   static Action onRefreshAction() {
