@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:weibo_flutter/const/colors.dart';
+import 'package:weibo_flutter/utils/emnu_type.dart';
 import 'package:weibo_flutter/utils/special_text_string.dart';
 
 class PaperSpecialText extends SpecialText {
@@ -26,7 +27,7 @@ class PaperSpecialText extends SpecialText {
         style: textStyle?.copyWith(color: GpColors.sourceColor),
         recognizer: TapGestureRecognizer()
           ..onTap = () {
-            if (onTap != null) onTap(tapStr);
+            if (onTap != null) onTap({EmnuType.HOME_RICH_PAPER: tapStr});
           });
   }
 

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:weibo_flutter/const/colors.dart';
+import 'package:weibo_flutter/utils/emnu_type.dart';
 
 class UserSpecialText extends SpecialText {
   static const String flag = "@";
@@ -23,7 +24,7 @@ class UserSpecialText extends SpecialText {
         style: textStyle?.copyWith(color: GpColors.sourceColor),
         recognizer: TapGestureRecognizer()
           ..onTap = () {
-            if (onTap != null) onTap(toString());
+            if (onTap != null) onTap({EmnuType.HOME_RICH_USER: toString()});
           });
   }
 }

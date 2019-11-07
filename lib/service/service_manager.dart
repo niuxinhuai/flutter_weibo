@@ -32,7 +32,6 @@ class ServiceManager {
               data: {UserDefaults.TOKEN_KEY: token, UserDefaults.UID: uid})
           .then((json) {
         List array = json['users'];
-        print('>>>>>原始数量${array.length}');
         List<User> users = [];
         for (var u in array) {
           users.add(User.fromJson(u));

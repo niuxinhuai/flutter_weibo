@@ -50,4 +50,10 @@ class _WebPageState extends State<WebPage> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    print('>>>>>>>我走了释放了');
+    super.dispose();
+  }
 }

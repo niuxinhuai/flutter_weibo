@@ -15,8 +15,6 @@
 #include "FlutterPlugin.h"
 #include "FlutterTexture.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @class FlutterEngine;
 
 /**
@@ -53,24 +51,24 @@ FLUTTER_EXPORT
  * The initialized viewcontroller will attach itself to the engine as part of this process.
  *
  * @param engine The `FlutterEngine` instance to attach to.
- * @param nibName The NIB name to initialize this UIViewController with.
- * @param nibBundle The NIB bundle.
+ * @param nibNameOrNil The NIB name to initialize this UIViewController with.
+ * @param nibBundleOrNil The NIB bundle.
  */
 - (instancetype)initWithEngine:(FlutterEngine*)engine
-                       nibName:(nullable NSString*)nibName
-                        bundle:(nullable NSBundle*)nibBundle NS_DESIGNATED_INITIALIZER;
+                       nibName:(NSString*)nibNameOrNil
+                        bundle:(NSBundle*)nibBundleOrNil NS_DESIGNATED_INITIALIZER;
 
 /**
  * Initializes a new FlutterViewController and `FlutterEngine` with the specified
  * `FlutterDartProject`.
  *
- * @param project The `FlutterDartProject` to initialize the `FlutterEngine` with.
- * @param nibName The NIB name to initialize this UIViewController with.
- * @param nibBundle The NIB bundle.
+ * @param projectOrNil The `FlutterDartProject` to initialize the `FlutterEngine` with.
+ * @param nibNameOrNil The NIB name to initialize this UIViewController with.
+ * @param nibBundleOrNil The NIB bundle.
  */
-- (instancetype)initWithProject:(nullable FlutterDartProject*)project
-                        nibName:(nullable NSString*)nibName
-                         bundle:(nullable NSBundle*)nibBundle NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithProject:(FlutterDartProject*)projectOrNil
+                        nibName:(NSString*)nibNameOrNil
+                         bundle:(NSBundle*)nibBundleOrNil NS_DESIGNATED_INITIALIZER;
 
 - (void)handleStatusBarTouches:(UIEvent*)event;
 
@@ -185,7 +183,5 @@ FLUTTER_EXPORT
 @property(nonatomic, readonly) NSObject<FlutterBinaryMessenger>* binaryMessenger;
 
 @end
-
-NS_ASSUME_NONNULL_END
 
 #endif  // FLUTTER_FLUTTERVIEWCONTROLLER_H_
