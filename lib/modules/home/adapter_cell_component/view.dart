@@ -74,7 +74,7 @@ Widget _getImageViewColumn(Item state, Dispatch dispatch,
         Padding(
           padding: const EdgeInsets.only(bottom: 5),
           child: AttributeString(
-              '@${state.retweetedStatus.user.name}:' +
+              '@${state.retweetedStatus.user.name} ' +
                   state.retweetedStatus.text,
               items),
         ),

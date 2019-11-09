@@ -10,7 +10,7 @@ class UserSpecialText extends SpecialText {
   final int start;
   UserSpecialText(TextStyle textStyle, SpecialTextGestureTapCallback onTap,
       {this.start})
-      : super(flag, ":", textStyle, onTap: onTap);
+      : super(flag, " ", textStyle, onTap: onTap);
 
   @override
   InlineSpan finishText() {
